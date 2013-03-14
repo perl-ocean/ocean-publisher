@@ -24,7 +24,7 @@ test_requires(
     'TAP::Harness::JUnit'       => '',
 );
 
-install_script 'bin/ocean-jsonrpc';
+install_script 'bin/ocean-publisher';
 
 auto_include;
 WriteAll;
