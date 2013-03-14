@@ -6,7 +6,7 @@ use warnings;
 use parent 'Ocean::ProjectTemplate::Layout::ExecutableFile';
 
 sub template     { do { local $/; <DATA> } }
-sub default_name { 'ocean-jsonrpc-start' }
+sub default_name { 'ocean-publisher-start' }
 
 1;
 __DATA__
@@ -35,7 +35,7 @@ GetOptions(
 
 pod2usage(1) if $help;
 
-my $config_file = File::Spec->catfile($FindBin::RealBin, '..', 'config', 'ocean-jsonrpc.yml');
+my $config_file = File::Spec->catfile($FindBin::RealBin, '..', 'config', 'ocean-publisher.yml');
 
 Ocean::Publisher::JSONRPC::Bootstrap->run( 
     config_file => $config_file ,
@@ -44,10 +44,10 @@ Ocean::Publisher::JSONRPC::Bootstrap->run(
 
 =head1 NAME 
 
-ocean-jsonrpc-start - Ocean JSONRPC Publisher server starter
+ocean-publisher-start - Ocean JSONRPC Publisher server starter
 
 =head1 SYNOPSIS
 
-    ./bin/ocean-jsonrpc-start
+    ./bin/ocean-publisher-start
 
 =cut
