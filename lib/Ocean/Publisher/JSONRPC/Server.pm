@@ -91,7 +91,7 @@ sub on_publish_request {
         Ocean::Constants::EventType::PUBLISH_EVENT,
         $self->{_context}, $args);
 
-    $self->_deliver_response($res_cv, {success => 1});
+    $self->_deliver_response($res_cv, 1);
 }
 
 sub _deliver_response {
