@@ -7,8 +7,9 @@ name 'Ocean-Publisher';
 all_from 'lib/Ocean/Publisher.pm';
 
 requires(
-    Ocean => '0.02',
-    'Module::Load'  => 0.24,
+    Ocean => '0.03',
+
+    'Module::Load'      => 0.24,
     'AnyEvent::HTTPD'   => 0.93,
     'AnyEvent::JSONRPC' => 0.15,
 );
