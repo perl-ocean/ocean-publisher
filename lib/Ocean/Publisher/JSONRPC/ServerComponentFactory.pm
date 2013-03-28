@@ -5,6 +5,7 @@ use warnings;
 
 use Module::Load ();
 
+use Ocean::Config;
 use Ocean::EventDispatcher;
 use Ocean::ServerComponent::Daemonizer::Default;
 use Ocean::ServerComponent::Daemonizer::Null;
@@ -14,8 +15,8 @@ use Ocean::Publisher::JSONRPC::ServerComponent::Listener::AEJSONRPC;
 sub new { bless {}, $_[0] }
 
 sub create_context {
-    my ($self, $config) = @_;
-    my $context_class = $config->get(server => 'context_class')
+    my $self = shift;
+    my $context_class = Ocean::Config->instance->get(server => 'context_class')
         || 'Ocean::Publisher::JSONRPC::Context';
     
     Module::Load::load($context_class);
@@ -28,10 +29,10 @@ sub create_context {
 }
 
 sub create_event_dispatcher {
-    my ($self, $config) = @_;
+    my $self = shift;
 
     my $dispatcher = Ocean::EventDispatcher->new;
-    my $handlers = $config->get('event_handler');
+    my $handlers = Ocean::Config->instance->get('event_handler');
 
     for my $category ( keys %$handlers ) {
         my $handler_class = $handlers->{$category};
@@ -43,14 +44,14 @@ sub create_event_dispatcher {
 }
 
 sub create_signal_handler {
-    my ($self, $config) = @_;
+    my $self = shift;
     return Ocean::CommonComponent::SignalHandler::AESignal->new;
 }
 
 sub create_daemonizer {
-    my ($self, $config, $daemonize) = @_;
+    my ($self, $daemonize) = @_;
 
-    my $pid_file = $config->get(server => q{pid_file});
+    my $pid_file = Ocean::Config->instance->get(server => q{pid_file});
 
     if ($daemonize && !$pid_file) {
         die "'pid_file' not found. "
@@ -64,12 +65,12 @@ sub create_daemonizer {
 }
 
 sub create_listener {
-    my ($self, $config) = @_;
+    my $self = shift;
     return Ocean::Publisher::JSONRPC::ServerComponent::Listener::AEJSONRPC->new(
-        host            => $config->get(server => q{host}),
-        port            => $config->get(server => q{port}),
-        backlog         => $config->get(server => q{backlog}),
-        timeout         => $config->get(server => q{timeout}),
+        host            => Ocean::Config->instance->get(server => q{host}),
+        port            => Ocean::Config->instance->get(server => q{port}),
+        backlog         => Ocean::Config->instance->get(server => q{backlog}),
+        timeout         => Ocean::Config->instance->get(server => q{timeout}),
     );
 }
 
